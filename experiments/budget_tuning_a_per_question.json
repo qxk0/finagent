@@ -1,0 +1,542 @@
+[
+  {
+    "qid": "fc_a_001",
+    "tier": "normal",
+    "ref_stem_coverage": 0.0,
+    "n_strong_spans": 2
+  },
+  {
+    "qid": "fc_a_002",
+    "tier": "normal",
+    "ref_stem_coverage": 0.0,
+    "n_strong_spans": 1
+  },
+  {
+    "qid": "fc_a_004",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 8
+  },
+  {
+    "qid": "fc_a_005",
+    "tier": "normal",
+    "ref_stem_coverage": 0.6667,
+    "n_strong_spans": 3
+  },
+  {
+    "qid": "fc_a_006",
+    "tier": "simple",
+    "ref_stem_coverage": 0.0,
+    "n_strong_spans": 2
+  },
+  {
+    "qid": "fc_a_007",
+    "tier": "complex",
+    "ref_stem_coverage": 0.5,
+    "n_strong_spans": 3
+  },
+  {
+    "qid": "fc_a_008",
+    "tier": "normal",
+    "ref_stem_coverage": 0.5,
+    "n_strong_spans": 7
+  },
+  {
+    "qid": "fc_a_009",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 10
+  },
+  {
+    "qid": "fc_a_010",
+    "tier": "simple",
+    "ref_stem_coverage": 0.5,
+    "n_strong_spans": 2
+  },
+  {
+    "qid": "fc_a_011",
+    "tier": "complex",
+    "ref_stem_coverage": 0.8333,
+    "n_strong_spans": 6
+  },
+  {
+    "qid": "fc_a_012",
+    "tier": "complex",
+    "ref_stem_coverage": 0.9091,
+    "n_strong_spans": 11
+  },
+  {
+    "qid": "fc_a_013",
+    "tier": "simple",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 2
+  },
+  {
+    "qid": "fc_a_014",
+    "tier": "complex",
+    "ref_stem_coverage": 0.6,
+    "n_strong_spans": 5
+  },
+  {
+    "qid": "fc_a_015",
+    "tier": "normal",
+    "ref_stem_coverage": 0.7143,
+    "n_strong_spans": 7
+  },
+  {
+    "qid": "fc_a_016",
+    "tier": "complex",
+    "ref_stem_coverage": 0.8,
+    "n_strong_spans": 5
+  },
+  {
+    "qid": "fc_a_017",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 2
+  },
+  {
+    "qid": "fc_a_019",
+    "tier": "complex",
+    "ref_stem_coverage": 0.0,
+    "n_strong_spans": 6
+  },
+  {
+    "qid": "fc_a_020",
+    "tier": "normal",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 3
+  },
+  {
+    "qid": "fin_a_001",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 4
+  },
+  {
+    "qid": "fin_a_002",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 6
+  },
+  {
+    "qid": "fin_a_003",
+    "tier": "simple",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 4
+  },
+  {
+    "qid": "fin_a_004",
+    "tier": "complex",
+    "ref_stem_coverage": 0.8,
+    "n_strong_spans": 5
+  },
+  {
+    "qid": "fin_a_005",
+    "tier": "complex",
+    "ref_stem_coverage": 0.75,
+    "n_strong_spans": 6
+  },
+  {
+    "qid": "fin_a_006",
+    "tier": "simple",
+    "ref_stem_coverage": 0.8,
+    "n_strong_spans": 5
+  },
+  {
+    "qid": "fin_a_007",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 11
+  },
+  {
+    "qid": "fin_a_008",
+    "tier": "complex",
+    "ref_stem_coverage": 0.8,
+    "n_strong_spans": 10
+  },
+  {
+    "qid": "fin_a_009",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 5
+  },
+  {
+    "qid": "fin_a_010",
+    "tier": "simple",
+    "ref_stem_coverage": 0.8571,
+    "n_strong_spans": 7
+  },
+  {
+    "qid": "fin_a_011",
+    "tier": "complex",
+    "ref_stem_coverage": 0.75,
+    "n_strong_spans": 5
+  },
+  {
+    "qid": "fin_a_012",
+    "tier": "normal",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 2
+  },
+  {
+    "qid": "fin_a_013",
+    "tier": "simple",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 4
+  },
+  {
+    "qid": "fin_a_014",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 5
+  },
+  {
+    "qid": "fin_a_015",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 11
+  },
+  {
+    "qid": "fin_a_016",
+    "tier": "complex",
+    "ref_stem_coverage": 0.8333,
+    "n_strong_spans": 11
+  },
+  {
+    "qid": "fin_a_017",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 8
+  },
+  {
+    "qid": "fin_a_018",
+    "tier": "simple",
+    "ref_stem_coverage": 0.5,
+    "n_strong_spans": 4
+  },
+  {
+    "qid": "fin_a_019",
+    "tier": "complex",
+    "ref_stem_coverage": 0.8333,
+    "n_strong_spans": 15
+  },
+  {
+    "qid": "fin_a_020",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 8
+  },
+  {
+    "qid": "ins_a_001",
+    "tier": "normal",
+    "ref_stem_coverage": 0.8462,
+    "n_strong_spans": 14
+  },
+  {
+    "qid": "ins_a_002",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 9
+  },
+  {
+    "qid": "ins_a_003",
+    "tier": "complex",
+    "ref_stem_coverage": 0.75,
+    "n_strong_spans": 14
+  },
+  {
+    "qid": "ins_a_004",
+    "tier": "simple",
+    "ref_stem_coverage": 0.5,
+    "n_strong_spans": 2
+  },
+  {
+    "qid": "ins_a_005",
+    "tier": "normal",
+    "ref_stem_coverage": 0.0,
+    "n_strong_spans": 1
+  },
+  {
+    "qid": "ins_a_006",
+    "tier": "complex",
+    "ref_stem_coverage": 0.7143,
+    "n_strong_spans": 12
+  },
+  {
+    "qid": "ins_a_007",
+    "tier": "normal",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 2
+  },
+  {
+    "qid": "ins_a_008",
+    "tier": "normal",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 2
+  },
+  {
+    "qid": "ins_a_010",
+    "tier": "normal",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 1
+  },
+  {
+    "qid": "ins_a_011",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 3
+  },
+  {
+    "qid": "ins_a_012",
+    "tier": "complex",
+    "ref_stem_coverage": 0.3333,
+    "n_strong_spans": 3
+  },
+  {
+    "qid": "ins_a_013",
+    "tier": "simple",
+    "ref_stem_coverage": 0.5,
+    "n_strong_spans": 2
+  },
+  {
+    "qid": "ins_a_015",
+    "tier": "normal",
+    "ref_stem_coverage": 0.5,
+    "n_strong_spans": 2
+  },
+  {
+    "qid": "ins_a_016",
+    "tier": "normal",
+    "ref_stem_coverage": 0.5,
+    "n_strong_spans": 2
+  },
+  {
+    "qid": "ins_a_017",
+    "tier": "normal",
+    "ref_stem_coverage": 0.0,
+    "n_strong_spans": 1
+  },
+  {
+    "qid": "ins_a_018",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 4
+  },
+  {
+    "qid": "ins_a_019",
+    "tier": "normal",
+    "ref_stem_coverage": 0.0,
+    "n_strong_spans": 1
+  },
+  {
+    "qid": "ins_a_020",
+    "tier": "simple",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 6
+  },
+  {
+    "qid": "reg_a_001",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 3
+  },
+  {
+    "qid": "reg_a_002",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 3
+  },
+  {
+    "qid": "reg_a_004",
+    "tier": "complex",
+    "ref_stem_coverage": 0.0,
+    "n_strong_spans": 3
+  },
+  {
+    "qid": "reg_a_005",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 4
+  },
+  {
+    "qid": "reg_a_007",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 9
+  },
+  {
+    "qid": "reg_a_008",
+    "tier": "normal",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 5
+  },
+  {
+    "qid": "reg_a_009",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 5
+  },
+  {
+    "qid": "reg_a_010",
+    "tier": "simple",
+    "ref_stem_coverage": 0.5,
+    "n_strong_spans": 2
+  },
+  {
+    "qid": "reg_a_011",
+    "tier": "normal",
+    "ref_stem_coverage": 0.3333,
+    "n_strong_spans": 3
+  },
+  {
+    "qid": "reg_a_012",
+    "tier": "normal",
+    "ref_stem_coverage": 0.0,
+    "n_strong_spans": 1
+  },
+  {
+    "qid": "reg_a_015",
+    "tier": "simple",
+    "ref_stem_coverage": 0.5,
+    "n_strong_spans": 2
+  },
+  {
+    "qid": "reg_a_016",
+    "tier": "normal",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 1
+  },
+  {
+    "qid": "reg_a_019",
+    "tier": "complex",
+    "ref_stem_coverage": 0.0,
+    "n_strong_spans": 5
+  },
+  {
+    "qid": "reg_a_020",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 3
+  },
+  {
+    "qid": "res_a_001",
+    "tier": "complex",
+    "ref_stem_coverage": 0.0,
+    "n_strong_spans": 17
+  },
+  {
+    "qid": "res_a_002",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 15
+  },
+  {
+    "qid": "res_a_003",
+    "tier": "simple",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 1
+  },
+  {
+    "qid": "res_a_004",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 8
+  },
+  {
+    "qid": "res_a_005",
+    "tier": "complex",
+    "ref_stem_coverage": 0.0,
+    "n_strong_spans": 10
+  },
+  {
+    "qid": "res_a_006",
+    "tier": "normal",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 10
+  },
+  {
+    "qid": "res_a_007",
+    "tier": "complex",
+    "ref_stem_coverage": 0.0,
+    "n_strong_spans": 9
+  },
+  {
+    "qid": "res_a_008",
+    "tier": "complex",
+    "ref_stem_coverage": 0.8,
+    "n_strong_spans": 10
+  },
+  {
+    "qid": "res_a_009",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 8
+  },
+  {
+    "qid": "res_a_010",
+    "tier": "simple",
+    "ref_stem_coverage": 0.6667,
+    "n_strong_spans": 3
+  },
+  {
+    "qid": "res_a_011",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 10
+  },
+  {
+    "qid": "res_a_012",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 6
+  },
+  {
+    "qid": "res_a_013",
+    "tier": "simple",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 6
+  },
+  {
+    "qid": "res_a_014",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 9
+  },
+  {
+    "qid": "res_a_015",
+    "tier": "normal",
+    "ref_stem_coverage": 0.7143,
+    "n_strong_spans": 7
+  },
+  {
+    "qid": "res_a_016",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 13
+  },
+  {
+    "qid": "res_a_017",
+    "tier": "complex",
+    "ref_stem_coverage": 0.6667,
+    "n_strong_spans": 7
+  },
+  {
+    "qid": "res_a_018",
+    "tier": "normal",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 7
+  },
+  {
+    "qid": "res_a_019",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 8
+  },
+  {
+    "qid": "res_a_020",
+    "tier": "complex",
+    "ref_stem_coverage": 1.0,
+    "n_strong_spans": 14
+  }
+]

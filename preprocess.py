@@ -222,6 +222,116 @@ def build_doc_chunks(doc_id: str, domain: str) -> List[Tuple[str, int]]:
     return [(c, i) for i, c in enumerate(chunks)]
 
 
+# ============ 页码感知解析与分块（证据可追溯：doc_id / chunk_id / page）============
+# 说明：默认管线不启用（PDF 逐页解析较慢），需要页码追溯时用 include_page=True 打开。
+
+PAGES_CACHE_DIR = os.path.join(config.CACHE_DIR, "pages")
+
+
+def _pages_cache_path(doc_id: str, domain: str) -> str:
+    safe_id = hashlib.md5(doc_id.encode()).hexdigest()[:12]
+    return os.path.join(PAGES_CACHE_DIR, f"{domain}_{safe_id}.jsonl")
+
+
+def _extract_pdf_pages(pdf_path: str) -> List[str]:
+    """逐页提取 PDF 文本（含表格），返回 [page_text, ...]，索引 0 表示第 1 页。"""
+    pages: List[str] = []
+    try:
+        with pdfplumber.open(pdf_path) as pdf:
+            for page in pdf.pages:
+                parts = []
+                text = page.extract_text()
+                if text:
+                    parts.append(text)
+                try:
+                    for table in page.extract_tables() or []:
+                        for row in table:
+                            if row:
+                                cells = [str(c).strip() if c else "" for c in row]
+                                row_text = " | ".join(cells)
+                                if row_text.strip(" |"):
+                                    parts.append(row_text)
+                except Exception:
+                    pass
+                pages.append("\n".join(parts))
+    except Exception as e:
+        print(f"  [WARN] PDF逐页解析失败 {pdf_path}: {e}")
+    return pages
+
+
+def load_document_pages(doc_id: str, domain: str) -> List[Tuple[int, str]]:
+    """加载文档并保留页码，返回 [(page_no, page_text), ...]（page_no 从 1 开始）。
+
+    PDF：逐页解析并用 jsonl 缓存；TXT/HTML：整篇作为第 1 页。
+    """
+    os.makedirs(PAGES_CACHE_DIR, exist_ok=True)
+    cache_path = _pages_cache_path(doc_id, domain)
+    if os.path.exists(cache_path):
+        out = []
+        with open(cache_path, "r", encoding="utf-8") as f:
+            for line in f:
+                line = line.strip()
+                if line:
+                    rec = json.loads(line)
+                    out.append((int(rec["page"]), rec.get("text", "")))
+        if out:
+            return out
+
+    path = resolve_doc_path(doc_id, domain)
+    if not path or not os.path.exists(path):
+        print(f"  [WARN] 文件不存在: {path}")
+        return []
+
+    ext = os.path.splitext(path)[1].lower()
+    if ext == ".pdf":
+        raw_pages = _extract_pdf_pages(path)
+        pages = [(i + 1, t) for i, t in enumerate(raw_pages) if t and t.strip()]
+    elif ext == ".html":
+        text = extract_html(path)
+        pages = [(1, text)] if text.strip() else []
+    elif ext == ".txt":
+        text = extract_txt(path)
+        pages = [(1, text)] if text.strip() else []
+    else:
+        pages = []
+
+    with open(cache_path, "w", encoding="utf-8") as f:
+        for page_no, text in pages:
+            f.write(json.dumps({"page": page_no, "text": text}, ensure_ascii=False) + "\n")
+    return pages
+
+
+def chunk_pages(pages: List[Tuple[int, str]], chunk_size: int = None,
+                overlap: int = None) -> List[Tuple[str, int, int]]:
+    """按页分块并记录页码，返回 [(chunk_text, chunk_idx, page_no), ...]。
+
+    与 chunk_text 的切分规则一致（段落优先、定长、尾部重叠），差别只是把
+    每个 chunk 归属到它起始段落所在的页码。
+    """
+    if chunk_size is None:
+        chunk_size = config.CHUNK_SIZE
+    if overlap is None:
+        overlap = config.CHUNK_OVERLAP
+
+    out: List[Tuple[str, int, int]] = []
+    idx = 0
+    for page_no, page_text in pages:
+        if not page_text.strip():
+            continue
+        for chunk in chunk_text(page_text, chunk_size=chunk_size, overlap=overlap):
+            out.append((chunk, idx, page_no))
+            idx += 1
+    return out
+
+
+def build_paged_chunks(doc_id: str, domain: str) -> List[Tuple[str, int, int]]:
+    """加载文档并做页码感知分块，返回 [(chunk_text, chunk_idx, page_no), ...]。"""
+    pages = load_document_pages(doc_id, domain)
+    if not pages:
+        return []
+    return chunk_pages(pages)
+
+
 # ============ 批量预处理 ============
 
 def preprocess_all(questions: List[dict]):

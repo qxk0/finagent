@@ -1,0 +1,206 @@
+{
+  "summary": {
+    "split": "B",
+    "n_questions": 5,
+    "n_retry_triggered": 5,
+    "reasons_histogram": {
+      "empty_answer": 5
+    },
+    "avg_retry_top_k": 48.0,
+    "avg_context_chars_gain": 5238.6,
+    "avg_key_span_hit_gain": 0.0,
+    "elapsed_seconds": 24.3,
+    "note": "离线桩演示：只验证失败检测与定向重检索链路会触发并生效；真实答案正确率需要 API Key 运行 --llm 场景"
+  },
+  "detector_unit_cases": [
+    {
+      "case": "空答案",
+      "expected": "empty_answer",
+      "detected": [
+        "empty_answer"
+      ],
+      "passed": true
+    },
+    {
+      "case": "计算题缺 %",
+      "expected": "format_violation_percent",
+      "detected": [
+        "format_violation_percent"
+      ],
+      "passed": true
+    },
+    {
+      "case": "计算题非数字",
+      "expected": "format_violation_numeric",
+      "detected": [
+        "format_violation_numeric"
+      ],
+      "passed": true
+    },
+    {
+      "case": "小数位不符",
+      "expected": "format_violation_decimals",
+      "detected": [
+        "format_violation_decimals"
+      ],
+      "passed": true
+    },
+    {
+      "case": "选择题答案越界",
+      "expected": "format_violation_choice",
+      "detected": [
+        "format_violation_choice"
+      ],
+      "passed": true
+    },
+    {
+      "case": "数字证据完全缺失",
+      "expected": "numeric_evidence_miss",
+      "detected": [
+        "numeric_evidence_miss"
+      ],
+      "passed": true
+    },
+    {
+      "case": "多次采样不一致",
+      "expected": "self_consistency_disagreement",
+      "detected": [
+        "self_consistency_disagreement"
+      ],
+      "passed": true
+    },
+    {
+      "case": "正常答案（不应报错）",
+      "expected": "NONE",
+      "detected": [
+        "NONE"
+      ],
+      "passed": true
+    }
+  ],
+  "per_question": [
+    {
+      "qid": "fc_b_001",
+      "domain": "financial_contracts",
+      "q_type": "计算题",
+      "retry_reason": [
+        "empty_answer"
+      ],
+      "first_retrieval_top_k": 20,
+      "retry_top_k": 40,
+      "first_context_chars": 8396,
+      "retry_context_chars": 12413,
+      "first_answer": "",
+      "second_answer": "0",
+      "accepted": true,
+      "accept_reason": "accepted:format_ok",
+      "additional_tokens": 0,
+      "retry_doc_ids": [],
+      "entities_used_for_targeting": [
+        "《广东省广晟控股集团有限公司2026年面向专业投资者公开发行科技创新公司债券（第一期）募集说明书》",
+        "广东省广晟控股集团有限公司"
+      ],
+      "key_span_hit_before": 1.0,
+      "key_span_hit_after": 1.0,
+      "final_answer_returned": "0"
+    },
+    {
+      "qid": "fc_b_005",
+      "domain": "financial_contracts",
+      "q_type": "计算题",
+      "retry_reason": [
+        "empty_answer"
+      ],
+      "first_retrieval_top_k": 20,
+      "retry_top_k": 40,
+      "first_context_chars": 8570,
+      "retry_context_chars": 12743,
+      "first_answer": "",
+      "second_answer": "0",
+      "accepted": true,
+      "accept_reason": "accepted:format_ok",
+      "additional_tokens": 0,
+      "retry_doc_ids": [],
+      "entities_used_for_targeting": [
+        "《苏州华亚智能科技股份有限公司发行股份及支付现金购买资产并募集配套资金暨关联交易报告书（草案）（注册稿）》",
+        "苏州华亚智能科技股份有限公司"
+      ],
+      "key_span_hit_before": 1.0,
+      "key_span_hit_after": 1.0,
+      "final_answer_returned": "0"
+    },
+    {
+      "qid": "fc_b_014",
+      "domain": "financial_contracts",
+      "q_type": "计算题",
+      "retry_reason": [
+        "empty_answer"
+      ],
+      "first_retrieval_top_k": 20,
+      "retry_top_k": 40,
+      "first_context_chars": 8571,
+      "retry_context_chars": 12512,
+      "first_answer": "",
+      "second_answer": "0",
+      "accepted": false,
+      "accept_reason": "rejected:format_violation_decimals",
+      "additional_tokens": 0,
+      "retry_doc_ids": [],
+      "entities_used_for_targeting": [
+        "根据西部证券"
+      ],
+      "key_span_hit_before": 0.6666666666666666,
+      "key_span_hit_after": 0.6666666666666666,
+      "final_answer_returned": ""
+    },
+    {
+      "qid": "fc_b_020",
+      "domain": "financial_contracts",
+      "q_type": "计算题",
+      "retry_reason": [
+        "empty_answer"
+      ],
+      "first_retrieval_top_k": 30,
+      "retry_top_k": 60,
+      "first_context_chars": 12999,
+      "retry_context_chars": 19796,
+      "first_answer": "",
+      "second_answer": "0",
+      "accepted": false,
+      "accept_reason": "rejected:format_violation_decimals",
+      "additional_tokens": 0,
+      "retry_doc_ids": [],
+      "entities_used_for_targeting": [
+        "长安银行",
+        "已知长安银行"
+      ],
+      "key_span_hit_before": 0.8,
+      "key_span_hit_after": 0.8,
+      "final_answer_returned": ""
+    },
+    {
+      "qid": "fin_b_013",
+      "domain": "financial_reports",
+      "q_type": "计算题",
+      "retry_reason": [
+        "empty_answer"
+      ],
+      "first_retrieval_top_k": 30,
+      "retry_top_k": 60,
+      "first_context_chars": 13872,
+      "retry_context_chars": 21137,
+      "first_answer": "",
+      "second_answer": "0",
+      "accepted": false,
+      "accept_reason": "rejected:format_violation_percent,format_violation_decimals",
+      "additional_tokens": 0,
+      "retry_doc_ids": [],
+      "entities_used_for_targeting": [
+        "同比增幅；占比提高百分点"
+      ],
+      "key_span_hit_before": 0.8,
+      "key_span_hit_after": 0.8,
+      "final_answer_returned": ""
+    }
+  ]
+}

@@ -1,0 +1,48 @@
+{
+  "generated_at": "2026-09-29 21:12:13",
+  "split": "A",
+  "objective": "全题池覆盖率曲线膝点（相对覆盖率≥0.95 的最小 (max_chars, top_k)），三档按 0.5x/1x/1.5x 缩放",
+  "reference": "top_k=60, 无字符上限",
+  "coverage_floor": 0.95,
+  "anchor": {
+    "top_k": 20,
+    "max_chars": 10000,
+    "pooled_relative_coverage": 0.9552
+  },
+  "note": "无 gold label 下的代理目标；拿到标注后请用 experiments/run_ablation.py 复核",
+  "tiers": {
+    "complex": {
+      "top_k": 30,
+      "max_chars": 16000,
+      "compression_ratio": 0.75,
+      "mean_relative_coverage_stem": 0.9832,
+      "pooled_relative_coverage": 0.9627,
+      "reference_coverage_stem": 0.7975,
+      "n_questions": 51,
+      "mean_context_chars_before_compression": 15733.5,
+      "mean_estimated_prompt_tokens": 11150.1
+    },
+    "normal": {
+      "top_k": 20,
+      "max_chars": 10000,
+      "compression_ratio": 0.6,
+      "mean_relative_coverage_stem": 0.9489,
+      "pooled_relative_coverage": 0.9552,
+      "reference_coverage_stem": 0.5989,
+      "n_questions": 23,
+      "mean_context_chars_before_compression": 9855.2,
+      "mean_estimated_prompt_tokens": 7284.6
+    },
+    "simple": {
+      "top_k": 10,
+      "max_chars": 4000,
+      "compression_ratio": 0.5,
+      "mean_relative_coverage_stem": 0.8125,
+      "pooled_relative_coverage": 0.8642,
+      "reference_coverage_stem": 0.7077,
+      "n_questions": 16,
+      "mean_context_chars_before_compression": 3619.1,
+      "mean_estimated_prompt_tokens": 2570.9
+    }
+  }
+}

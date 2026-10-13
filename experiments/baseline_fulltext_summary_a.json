@@ -1,0 +1,13 @@
+{
+  "split": "A",
+  "n_questions": 100,
+  "n_feasible": 52,
+  "n_skipped": 48,
+  "skip_reason": "全文超过模型上下文窗口（128K tokens）",
+  "prompt_tokens": 2655117,
+  "completion_tokens": 0,
+  "total_tokens": 2655117,
+  "token_source": "estimated",
+  "accuracy_on_feasible": null,
+  "generated_at": "2026-09-29 21:29:00"
+}

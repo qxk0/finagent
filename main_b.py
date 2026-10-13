@@ -8,9 +8,11 @@ import time
 from typing import List, Tuple, Dict
 
 import config
+from agent.pipeline import append_jsonl
 from preprocess import load_document, build_doc_chunks, chunk_text
 from retriever import tokenize, BM25Retriever, build_query
 from reasoner import _vote_multi
+from agent.self_consistency import run_self_consistency
 
 from rank_bm25 import BM25Okapi
 from openai import OpenAI
@@ -19,10 +21,18 @@ from openai import OpenAI
 MAX_TOKENS_CALC = 1200
 MAX_TOKENS_CHOICE = 500
 
-_client = OpenAI(
-    api_key=config.DASHSCOPE_API_KEY,
-    base_url=config.BASE_URL,
-)
+_client = None
+
+
+def get_client() -> OpenAI:
+    """懒加载客户端（无 API Key 时也能 import 本模块做离线分析/消融实验）。"""
+    global _client
+    if _client is None:
+        api_key = config.DASHSCOPE_API_KEY or os.environ.get("DASHSCOPE_API_KEY", "")
+        if not api_key:
+            raise RuntimeError("未设置 DASHSCOPE_API_KEY，无法调用 Qwen API")
+        _client = OpenAI(api_key=api_key, base_url=config.BASE_URL)
+    return _client
 
 
 def call_llm_b(system_prompt: str, user_prompt: str, max_tokens: int = 500,
@@ -32,7 +42,7 @@ def call_llm_b(system_prompt: str, user_prompt: str, max_tokens: int = 500,
         temperature = config.TEMPERATURE
     for attempt in range(config.MAX_RETRIES):
         try:
-            resp = _client.chat.completions.create(
+            resp = get_client().chat.completions.create(
                 model=config.MODEL_NAME,
                 messages=[
                     {"role": "system", "content": system_prompt},
@@ -120,18 +130,20 @@ class DomainRetriever:
     """领域级BM25检索器 - 缓存索引避免重复构建"""
     _instances: Dict[str, "DomainRetriever"] = {}
 
-    def __init__(self, domain: str):
+    def __init__(self, domain: str, use_finance_dict: bool = True):
         self.domain = domain
+        self.use_finance_dict = use_finance_dict
         self.chunks: List[str] = []
         self.chunk_doc_ids: List[str] = []
         self.bm25 = None
         self._build()
 
     @classmethod
-    def get(cls, domain: str) -> "DomainRetriever":
-        if domain not in cls._instances:
-            cls._instances[domain] = cls(domain)
-        return cls._instances[domain]
+    def get(cls, domain: str, use_finance_dict: bool = True) -> "DomainRetriever":
+        key = (domain, use_finance_dict)
+        if key not in cls._instances:
+            cls._instances[key] = cls(domain, use_finance_dict=use_finance_dict)
+        return cls._instances[key]
 
     def _build(self):
         """构建领域全量BM25索引"""
@@ -156,7 +168,7 @@ class DomainRetriever:
         self.chunk_doc_ids = all_doc_ids
 
         if all_chunks:
-            tokenized = [tokenize(c) for c in all_chunks]
+            tokenized = [tokenize(c, use_finance_dict=self.use_finance_dict) for c in all_chunks]
             self.bm25 = BM25Okapi(tokenized)
 
         t1 = time.time()
@@ -173,7 +185,7 @@ class DomainRetriever:
         if max_chars is None:
             max_chars = domain_cfg.get("max_ctx", config.MAX_CONTEXT_CHARS)
 
-        query_tokens = tokenize(query)
+        query_tokens = tokenize(query, use_finance_dict=self.use_finance_dict)
         scores = self.bm25.get_scores(query_tokens)
 
         # 按分数排序
@@ -405,19 +417,20 @@ def solve_question_b(q: dict) -> dict:
         user_prompt = build_choice_prompt(question, options, q_type, context)
 
         if q_type == "多选题":
-            # 多选题：3次调用+投票
-            answers_list = []
-            for i in range(3):
-                temp = config.TEMPERATURE if i == 0 else 0.3
-                response, pt, ct = call_llm_b(SYSTEM_PROMPT_CHOICE, user_prompt,
-                                              max_tokens=MAX_TOKENS_CHOICE, temperature=temp)
-                total_pt += pt
-                total_ct += ct
-                ans = extract_choice_answer(response, q_type)
-                answers_list.append(ans)
-                if i == 1 and answers_list[0] and answers_list[0] == answers_list[1]:
-                    break
-            answer = _vote_multi(answers_list)
+            # 多选题：3次调用+投票（逻辑不变，改走统一的自一致性模块以便记录日志）
+            sc = run_self_consistency(
+                call_fn=lambda temp: call_llm_b(SYSTEM_PROMPT_CHOICE, user_prompt,
+                                                max_tokens=MAX_TOKENS_CHOICE, temperature=temp),
+                extract_fn=lambda resp: extract_choice_answer(resp, q_type),
+                n_samples=config.SC_N_SAMPLES,
+                temperatures=config.SC_TEMPERATURES,
+                qid=qid,
+                log_path=config.SELF_CONSISTENCY_LOG,
+                meta={"pipeline": "main_b.solve_question_b", "q_type": q_type},
+            )
+            total_pt += sc.prompt_tokens
+            total_ct += sc.completion_tokens
+            answer = sc.final_answer
         else:
             # 单选/判断：单次调用
             response, pt, ct = call_llm_b(SYSTEM_PROMPT_CHOICE, user_prompt,
@@ -464,6 +477,19 @@ def solve_question_b(q: dict) -> dict:
 
     t2 = time.time()
     print(f"  答案: {answers} | tokens: {total_pt}+{total_ct}={total_pt+total_ct} | {t2-t1:.1f}s")
+
+    # 记录本题实际使用的检索预算与 token（不影响 answer_b.csv 输出）
+    domain_cfg = config.DOMAIN_CONFIG.get(domain, {})
+    append_jsonl(config.RETRIEVAL_LOG, {
+        "pipeline": "legacy_domain_bm25",
+        "qid": qid, "domain": domain, "q_type": q_type,
+        "top_k": domain_cfg.get("top_k", config.TOP_K),
+        "max_chars": domain_cfg.get("max_ctx", config.MAX_CONTEXT_CHARS),
+        "n_selected": None,             # 旧逻辑未保留块级标识
+        "context_chars": len(context),
+        "prompt_tokens": total_pt, "completion_tokens": total_ct,
+        "total_tokens": total_pt + total_ct, "token_source": "api",
+    })
 
     return {
         "qid": qid,

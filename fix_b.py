@@ -10,6 +10,7 @@ from typing import List, Tuple
 sys.stdout.reconfigure(encoding='utf-8')
 
 import config
+from agent.failure_retrieval import COMPANY_DOC_MAP, detect_failure, targeted_doc_ids
 from preprocess import load_document, build_doc_chunks
 from retriever import tokenize, build_query
 from rank_bm25 import BM25Okapi
@@ -17,17 +18,21 @@ from openai import OpenAI
 
 # ============ 配置 ============
 MAX_TOKENS_CALC = 1500
-_client = OpenAI(api_key=config.DASHSCOPE_API_KEY, base_url=config.BASE_URL)
+_client = None
 
-# 公司名 → doc_id 映射
-COMPANY_DOC_MAP = {
-    "比亚迪": ["annual_byd_2024_report", "annual_byd_2025_report"],
-    "宁德时代": ["annual_catl_2024_report", "annual_catl_2025_report"],
-    "美的集团": ["annual_midea_2024_report", "annual_midea_2025_report"],
-    "招商银行": ["annual_cmb_2025_report"],
-    "中国建筑": ["annual_cscec_2024_report", "annual_cscec_2025_report"],
-    "中国移动": ["annual_chinamobile_2025_report"],
-}
+
+def get_client() -> OpenAI:
+    """懒加载客户端（无 API Key 时也能 import 本模块）。"""
+    global _client
+    if _client is None:
+        api_key = config.DASHSCOPE_API_KEY or os.environ.get("DASHSCOPE_API_KEY", "")
+        if not api_key:
+            raise RuntimeError("未设置 DASHSCOPE_API_KEY，无法调用 Qwen API")
+        _client = OpenAI(api_key=api_key, base_url=config.BASE_URL)
+    return _client
+
+# 公司名 → doc_id 映射已抽取到 agent/failure_retrieval.py（单一数据源），
+# 本脚本保留原有修复流程，仅改为复用该映射，行为不变。
 
 # 需要修复的题目及其目标文档
 FIX_TARGETS = {
@@ -57,7 +62,7 @@ SYSTEM_PROMPT_CALC = """你是金融文档计算专家，严格依据提供的�
 def call_llm(system_prompt: str, user_prompt: str, max_tokens: int = 1500) -> Tuple[str, int, int]:
     for attempt in range(3):
         try:
-            resp = _client.chat.completions.create(
+            resp = get_client().chat.completions.create(
                 model=config.MODEL_NAME,
                 messages=[
                     {"role": "system", "content": system_prompt},

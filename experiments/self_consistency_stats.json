@@ -1,0 +1,405 @@
+{
+  "method": "inferred",
+  "source": "run_log.txt",
+  "n_multi_questions": 65,
+  "mean_implied_calls": 2.095,
+  "implied_calls_histogram": {
+    "2": 57,
+    "3": 7,
+    "other": 1
+  },
+  "early_stop_ratio": 0.8769,
+  "note": "反推值：依赖 token 估计器（MAPE≈9%），仅用于在没有新版日志时给出量级；真实统计请运行主流程后读取 experiments/logs/self_consistency.jsonl",
+  "per_question": [
+    {
+      "qid": "fc_a_001",
+      "observed_prompt_tokens": 15408,
+      "estimated_single_call_tokens": 9011,
+      "implied_calls": 1.71
+    },
+    {
+      "qid": "fc_a_002",
+      "observed_prompt_tokens": 15654,
+      "estimated_single_call_tokens": 9571,
+      "implied_calls": 1.64
+    },
+    {
+      "qid": "fc_a_004",
+      "observed_prompt_tokens": 15914,
+      "estimated_single_call_tokens": 9910,
+      "implied_calls": 1.61
+    },
+    {
+      "qid": "fc_a_005",
+      "observed_prompt_tokens": 14912,
+      "estimated_single_call_tokens": 8977,
+      "implied_calls": 1.66
+    },
+    {
+      "qid": "fc_a_007",
+      "observed_prompt_tokens": 22347,
+      "estimated_single_call_tokens": 8934,
+      "implied_calls": 2.5
+    },
+    {
+      "qid": "fc_a_009",
+      "observed_prompt_tokens": 15692,
+      "estimated_single_call_tokens": 9549,
+      "implied_calls": 1.64
+    },
+    {
+      "qid": "fc_a_011",
+      "observed_prompt_tokens": 22632,
+      "estimated_single_call_tokens": 8539,
+      "implied_calls": 2.65
+    },
+    {
+      "qid": "fc_a_012",
+      "observed_prompt_tokens": 24891,
+      "estimated_single_call_tokens": 10067,
+      "implied_calls": 2.47
+    },
+    {
+      "qid": "fc_a_014",
+      "observed_prompt_tokens": 24033,
+      "estimated_single_call_tokens": 8753,
+      "implied_calls": 2.75
+    },
+    {
+      "qid": "fc_a_016",
+      "observed_prompt_tokens": 16224,
+      "estimated_single_call_tokens": 8700,
+      "implied_calls": 1.86
+    },
+    {
+      "qid": "fc_a_017",
+      "observed_prompt_tokens": 15978,
+      "estimated_single_call_tokens": 8372,
+      "implied_calls": 1.91
+    },
+    {
+      "qid": "fc_a_019",
+      "observed_prompt_tokens": 17026,
+      "estimated_single_call_tokens": 10572,
+      "implied_calls": 1.61
+    },
+    {
+      "qid": "fc_a_020",
+      "observed_prompt_tokens": 16208,
+      "estimated_single_call_tokens": 8377,
+      "implied_calls": 1.93
+    },
+    {
+      "qid": "fin_a_001",
+      "observed_prompt_tokens": 27320,
+      "estimated_single_call_tokens": 13248,
+      "implied_calls": 2.06
+    },
+    {
+      "qid": "fin_a_002",
+      "observed_prompt_tokens": 24966,
+      "estimated_single_call_tokens": 11046,
+      "implied_calls": 2.26
+    },
+    {
+      "qid": "fin_a_004",
+      "observed_prompt_tokens": 27224,
+      "estimated_single_call_tokens": 11912,
+      "implied_calls": 2.29
+    },
+    {
+      "qid": "fin_a_005",
+      "observed_prompt_tokens": 24310,
+      "estimated_single_call_tokens": 11064,
+      "implied_calls": 2.2
+    },
+    {
+      "qid": "fin_a_007",
+      "observed_prompt_tokens": 27286,
+      "estimated_single_call_tokens": 13011,
+      "implied_calls": 2.1
+    },
+    {
+      "qid": "fin_a_009",
+      "observed_prompt_tokens": 26298,
+      "estimated_single_call_tokens": 12633,
+      "implied_calls": 2.08
+    },
+    {
+      "qid": "fin_a_011",
+      "observed_prompt_tokens": 25302,
+      "estimated_single_call_tokens": 10292,
+      "implied_calls": 2.46
+    },
+    {
+      "qid": "fin_a_012",
+      "observed_prompt_tokens": 25282,
+      "estimated_single_call_tokens": 11503,
+      "implied_calls": 2.2
+    },
+    {
+      "qid": "fin_a_014",
+      "observed_prompt_tokens": 36459,
+      "estimated_single_call_tokens": 10150,
+      "implied_calls": 3.59
+    },
+    {
+      "qid": "fin_a_016",
+      "observed_prompt_tokens": 25728,
+      "estimated_single_call_tokens": 10645,
+      "implied_calls": 2.42
+    },
+    {
+      "qid": "fin_a_017",
+      "observed_prompt_tokens": 37863,
+      "estimated_single_call_tokens": 10919,
+      "implied_calls": 3.47
+    },
+    {
+      "qid": "fin_a_019",
+      "observed_prompt_tokens": 25394,
+      "estimated_single_call_tokens": 10135,
+      "implied_calls": 2.51
+    },
+    {
+      "qid": "fin_a_020",
+      "observed_prompt_tokens": 25226,
+      "estimated_single_call_tokens": 11372,
+      "implied_calls": 2.22
+    },
+    {
+      "qid": "ins_a_005",
+      "observed_prompt_tokens": 16716,
+      "estimated_single_call_tokens": 8276,
+      "implied_calls": 2.02
+    },
+    {
+      "qid": "ins_a_007",
+      "observed_prompt_tokens": 22119,
+      "estimated_single_call_tokens": 8089,
+      "implied_calls": 2.73
+    },
+    {
+      "qid": "ins_a_008",
+      "observed_prompt_tokens": 15842,
+      "estimated_single_call_tokens": 8082,
+      "implied_calls": 1.96
+    },
+    {
+      "qid": "ins_a_009",
+      "observed_prompt_tokens": 16148,
+      "estimated_single_call_tokens": 8075,
+      "implied_calls": 2.0
+    },
+    {
+      "qid": "ins_a_010",
+      "observed_prompt_tokens": 16280,
+      "estimated_single_call_tokens": 8469,
+      "implied_calls": 1.92
+    },
+    {
+      "qid": "ins_a_011",
+      "observed_prompt_tokens": 16638,
+      "estimated_single_call_tokens": 8739,
+      "implied_calls": 1.9
+    },
+    {
+      "qid": "ins_a_012",
+      "observed_prompt_tokens": 16200,
+      "estimated_single_call_tokens": 8339,
+      "implied_calls": 1.94
+    },
+    {
+      "qid": "ins_a_014",
+      "observed_prompt_tokens": 16520,
+      "estimated_single_call_tokens": 8512,
+      "implied_calls": 1.94
+    },
+    {
+      "qid": "ins_a_015",
+      "observed_prompt_tokens": 16462,
+      "estimated_single_call_tokens": 8525,
+      "implied_calls": 1.93
+    },
+    {
+      "qid": "ins_a_016",
+      "observed_prompt_tokens": 16034,
+      "estimated_single_call_tokens": 8237,
+      "implied_calls": 1.95
+    },
+    {
+      "qid": "ins_a_017",
+      "observed_prompt_tokens": 24273,
+      "estimated_single_call_tokens": 8289,
+      "implied_calls": 2.93
+    },
+    {
+      "qid": "ins_a_018",
+      "observed_prompt_tokens": 15998,
+      "estimated_single_call_tokens": 8169,
+      "implied_calls": 1.96
+    },
+    {
+      "qid": "ins_a_019",
+      "observed_prompt_tokens": 16222,
+      "estimated_single_call_tokens": 8967,
+      "implied_calls": 1.81
+    },
+    {
+      "qid": "reg_a_001",
+      "observed_prompt_tokens": 16312,
+      "estimated_single_call_tokens": 8228,
+      "implied_calls": 1.98
+    },
+    {
+      "qid": "reg_a_002",
+      "observed_prompt_tokens": 16642,
+      "estimated_single_call_tokens": 8063,
+      "implied_calls": 2.06
+    },
+    {
+      "qid": "reg_a_004",
+      "observed_prompt_tokens": 16872,
+      "estimated_single_call_tokens": 8162,
+      "implied_calls": 2.07
+    },
+    {
+      "qid": "reg_a_005",
+      "observed_prompt_tokens": 16874,
+      "estimated_single_call_tokens": 8393,
+      "implied_calls": 2.01
+    },
+    {
+      "qid": "reg_a_007",
+      "observed_prompt_tokens": 16380,
+      "estimated_single_call_tokens": 8154,
+      "implied_calls": 2.01
+    },
+    {
+      "qid": "reg_a_009",
+      "observed_prompt_tokens": 16068,
+      "estimated_single_call_tokens": 8045,
+      "implied_calls": 2.0
+    },
+    {
+      "qid": "reg_a_011",
+      "observed_prompt_tokens": 16536,
+      "estimated_single_call_tokens": 8080,
+      "implied_calls": 2.05
+    },
+    {
+      "qid": "reg_a_012",
+      "observed_prompt_tokens": 17930,
+      "estimated_single_call_tokens": 8073,
+      "implied_calls": 2.22
+    },
+    {
+      "qid": "reg_a_014",
+      "observed_prompt_tokens": 18308,
+      "estimated_single_call_tokens": 8015,
+      "implied_calls": 2.28
+    },
+    {
+      "qid": "reg_a_016",
+      "observed_prompt_tokens": 19270,
+      "estimated_single_call_tokens": 8628,
+      "implied_calls": 2.23
+    },
+    {
+      "qid": "reg_a_017",
+      "observed_prompt_tokens": 18554,
+      "estimated_single_call_tokens": 8541,
+      "implied_calls": 2.17
+    },
+    {
+      "qid": "reg_a_019",
+      "observed_prompt_tokens": 19936,
+      "estimated_single_call_tokens": 9114,
+      "implied_calls": 2.19
+    },
+    {
+      "qid": "reg_a_020",
+      "observed_prompt_tokens": 18724,
+      "estimated_single_call_tokens": 8176,
+      "implied_calls": 2.29
+    },
+    {
+      "qid": "res_a_001",
+      "observed_prompt_tokens": 20474,
+      "estimated_single_call_tokens": 10526,
+      "implied_calls": 1.95
+    },
+    {
+      "qid": "res_a_002",
+      "observed_prompt_tokens": 19248,
+      "estimated_single_call_tokens": 12367,
+      "implied_calls": 1.56
+    },
+    {
+      "qid": "res_a_004",
+      "observed_prompt_tokens": 19310,
+      "estimated_single_call_tokens": 12005,
+      "implied_calls": 1.61
+    },
+    {
+      "qid": "res_a_005",
+      "observed_prompt_tokens": 20190,
+      "estimated_single_call_tokens": 12191,
+      "implied_calls": 1.66
+    },
+    {
+      "qid": "res_a_007",
+      "observed_prompt_tokens": 19516,
+      "estimated_single_call_tokens": 9273,
+      "implied_calls": 2.1
+    },
+    {
+      "qid": "res_a_009",
+      "observed_prompt_tokens": 20666,
+      "estimated_single_call_tokens": 10769,
+      "implied_calls": 1.92
+    },
+    {
+      "qid": "res_a_011",
+      "observed_prompt_tokens": 19852,
+      "estimated_single_call_tokens": 9596,
+      "implied_calls": 2.07
+    },
+    {
+      "qid": "res_a_012",
+      "observed_prompt_tokens": 18516,
+      "estimated_single_call_tokens": 9884,
+      "implied_calls": 1.87
+    },
+    {
+      "qid": "res_a_014",
+      "observed_prompt_tokens": 18968,
+      "estimated_single_call_tokens": 11724,
+      "implied_calls": 1.62
+    },
+    {
+      "qid": "res_a_016",
+      "observed_prompt_tokens": 21090,
+      "estimated_single_call_tokens": 11540,
+      "implied_calls": 1.83
+    },
+    {
+      "qid": "res_a_017",
+      "observed_prompt_tokens": 20308,
+      "estimated_single_call_tokens": 9778,
+      "implied_calls": 2.08
+    },
+    {
+      "qid": "res_a_019",
+      "observed_prompt_tokens": 22756,
+      "estimated_single_call_tokens": 12031,
+      "implied_calls": 1.89
+    },
+    {
+      "qid": "res_a_020",
+      "observed_prompt_tokens": 20438,
+      "estimated_single_call_tokens": 12388,
+      "implied_calls": 1.65
+    }
+  ]
+}

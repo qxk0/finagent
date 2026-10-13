@@ -1,4 +1,5 @@
 """推理作答模块 - Prompt设计 + API调用 + 答案提取"""
+import os
 import re
 import time
 from typing import Tuple
@@ -6,11 +7,29 @@ from typing import Tuple
 from openai import OpenAI
 
 import config
+from agent.self_consistency import run_self_consistency
 
-client = OpenAI(
-    api_key=config.DASHSCOPE_API_KEY,
-    base_url=config.BASE_URL,
-)
+_client = None
+
+
+def get_client() -> OpenAI:
+    """懒加载 OpenAI/DashScope 客户端。
+
+    改成懒加载的原因：原实现在 import 时就创建客户端，缺少 API Key 时
+    `import reasoner` 会直接抛错，导致纯离线脚本（评测/预算调参）无法复用本模块。
+    有 Key 时的行为与原来完全一致。
+    """
+    global _client
+    if _client is None:
+        api_key = config.DASHSCOPE_API_KEY or os.environ.get("DASHSCOPE_API_KEY", "")
+        if not api_key:
+            raise RuntimeError("未设置 DASHSCOPE_API_KEY，无法调用 Qwen API")
+        _client = OpenAI(api_key=api_key, base_url=config.BASE_URL)
+    return _client
+
+
+def has_api_key() -> bool:
+    return bool(config.DASHSCOPE_API_KEY or os.environ.get("DASHSCOPE_API_KEY", ""))
 
 # ============ System Prompt ============
 SYSTEM_PROMPT = """你是金融文档审核专家，严格依据提供的证据材料作答。铁律：
@@ -61,7 +80,7 @@ def call_llm(system_prompt: str, user_prompt: str) -> Tuple[str, int, int]:
     """调用 LLM API，返回 (response_text, prompt_tokens, completion_tokens)"""
     for attempt in range(config.MAX_RETRIES):
         try:
-            resp = client.chat.completions.create(
+            resp = get_client().chat.completions.create(
                 model=config.MODEL_NAME,
                 messages=[
                     {"role": "system", "content": system_prompt},
@@ -141,37 +160,39 @@ def _vote_multi(answers: list) -> str:
     tied = [ans for ans, cnt in best if cnt == max_count]
     if len(tied) == 1:
         return tied[0]
-    # 平票时取字母数最少的（宁缺勿滥）：赛题漏选/错选/多选均计为错误，
+    # 平票时取字母数最少的（宁缺勿滥）：该数据集漏选/错选/多选均计为错误，
     # 过度选择（多选）会导致整题失分，保守策略与 system prompt 一致。
     return sorted(tied, key=lambda x: len(x))[0]
 
 
 def answer_question(question: str, options: dict, answer_format: str,
-                    context: str) -> Tuple[str, int, int]:
+                    context: str, qid: str = "",
+                    log_self_consistency: bool = True) -> Tuple[str, int, int]:
     """完整的单题作答流程，返回 (answer, prompt_tokens, completion_tokens)
     
     多选题使用3次调用+投票机制提升准确率。
     单选题/判断题使用单次调用节省token。
+
+    qid 仅用于自一致性日志（任务5：call_count / candidate_answers / early_stop /
+    final_answer / total_tokens），不影响作答逻辑与答案。
     """
     user_prompt = build_user_prompt(question, options, answer_format, context)
     total_pt, total_ct = 0, 0
 
     if answer_format == "multi":
-        # 多选题：3次调用 + 投票
-        answers = []
-        for i in range(3):
-            # 第2、3次用略高温度增加多样性
-            temp = config.TEMPERATURE if i == 0 else 0.3
-            response, pt, ct = _call_llm_with_temp(SYSTEM_PROMPT, user_prompt, temp)
-            total_pt += pt
-            total_ct += ct
-            ans = extract_answer(response, answer_format)
-            answers.append(ans)
-            # 如果前两次一致，提前结束节省token
-            if i == 1 and answers[0] and answers[0] == answers[1]:
-                return answers[0], total_pt, total_ct
-
-        answer = _vote_multi(answers)
+        # 多选题：3次调用 + 投票（逻辑不变，接入结构化日志）
+        sc = run_self_consistency(
+            call_fn=lambda temp: _call_llm_with_temp(SYSTEM_PROMPT, user_prompt, temp),
+            extract_fn=lambda resp: extract_answer(resp, answer_format),
+            n_samples=config.SC_N_SAMPLES,
+            temperatures=config.SC_TEMPERATURES,
+            qid=qid,
+            log_path=config.SELF_CONSISTENCY_LOG if log_self_consistency else None,
+            meta={"pipeline": "reasoner.answer_question", "answer_format": answer_format},
+        )
+        total_pt += sc.prompt_tokens
+        total_ct += sc.completion_tokens
+        answer = sc.final_answer
     else:
         # 单选/判断：单次调用
         response, pt, ct = call_llm(SYSTEM_PROMPT, user_prompt)
@@ -203,7 +224,7 @@ def _call_llm_with_temp(system_prompt: str, user_prompt: str,
     """带自定义温度的 LLM 调用"""
     for attempt in range(config.MAX_RETRIES):
         try:
-            resp = client.chat.completions.create(
+            resp = get_client().chat.completions.create(
                 model=config.MODEL_NAME,
                 messages=[
                     {"role": "system", "content": system_prompt},

@@ -1,0 +1,75 @@
+{
+  "features": [
+    "cjk",
+    "ascii_alnum",
+    "other"
+  ],
+  "coef": [
+    0.6428247464296601,
+    2.259291287072754,
+    0.4912246570398381
+  ],
+  "metrics": {
+    "mape_percent": 9.315,
+    "r2": 0.6811,
+    "max_abs_error": 2136,
+    "mean_abs_error": 901.8,
+    "n_samples": 34,
+    "model_features": [
+      "cjk",
+      "ascii_alnum",
+      "other"
+    ],
+    "cv_mape_percent": 10.133,
+    "cv_candidates": [
+      {
+        "features": [
+          "cjk",
+          "ascii_alnum",
+          "other"
+        ],
+        "cv_mape_percent": 10.133
+      },
+      {
+        "features": [
+          "chars",
+          "ascii_alnum",
+          "one"
+        ],
+        "cv_mape_percent": 10.244
+      },
+      {
+        "features": [
+          "cjk",
+          "other",
+          "one"
+        ],
+        "cv_mape_percent": 15.301
+      },
+      {
+        "features": [
+          "chars",
+          "one"
+        ],
+        "cv_mape_percent": 16.692
+      }
+    ],
+    "calibration_source": "run_log.txt",
+    "legacy_max_chars": 12000,
+    "n_single_call_samples": 34,
+    "single_call_mape_percent": 9.315,
+    "single_call_mean_abs_error": 901.8,
+    "multi_questions": 65,
+    "multi_implied_calls_in_2_3_ratio": 0.9846,
+    "multi_mean_integer_deviation": 0.2
+  },
+  "source": "fitted",
+  "calibration_source": "run_log.txt",
+  "legacy_max_chars": 12000,
+  "n_single_call_samples": 34,
+  "single_call_mape_percent": 9.315,
+  "single_call_mean_abs_error": 901.8,
+  "multi_questions": 65,
+  "multi_implied_calls_in_2_3_ratio": 0.9846,
+  "multi_mean_integer_deviation": 0.2
+}

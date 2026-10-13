@@ -1,0 +1,29 @@
+{
+  "n_questions_total": 200,
+  "n_questions_A": 100,
+  "n_questions_B": 100,
+  "question_field_scan": {
+    "fields_found": {},
+    "n_questions": 200,
+    "has_gold_in_questions": false
+  },
+  "sidecar_files": [
+    {
+      "path": "upload_b/submit.csv",
+      "type": "csv",
+      "qid_column": "qid",
+      "answer_columns": [
+        "answer_1",
+        "answer_2",
+        "answer_3",
+        "answer_4"
+      ],
+      "n_rows": 101,
+      "n_non_empty_values": 114,
+      "placeholder_ratio": 0.3246,
+      "verdict": "PLACEHOLDER_SUSPECT"
+    }
+  ],
+  "conclusion": "NO_GOLD_LABELS_FOUND",
+  "message": "数据集中未发现任何标准答案字段或答案文件；eval_labels.json 保持为空，不做任何猜测。"
+}

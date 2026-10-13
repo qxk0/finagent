@@ -47,11 +47,24 @@ FINANCE_TERMS = [
 for term in FINANCE_TERMS:
     jieba.add_word(term, freq=100000)
 
+_FINANCE_TERM_SET = set(FINANCE_TERMS)
 
-def tokenize(text: str) -> List[str]:
-    """金融增强分词"""
+
+def tokenize(text: str, use_finance_dict: bool = True) -> List[str]:
+    """金融增强分词。
+
+    Args:
+        use_finance_dict: 是否启用 133 个金融术语的 jieba 自定义词典。
+            设为 False 用于消融实验（任务7 的 B 组：纯 jieba BM25）。
+            自定义词典是在模块加载时一次性写入 jieba 全局词典的，因此这里通过
+            "把金融术语拆成单字"的方式模拟未加载词典时的分词结果，二者等效。
+    """
     # 先提取数字+单位模式（如 70%、100万元、30个工作日）
     text_clean = re.sub(r"\s+", " ", text)
+    if not use_finance_dict:
+        for term in _FINANCE_TERM_SET:
+            if term in text_clean:
+                text_clean = text_clean.replace(term, " ".join(term))
     tokens = jieba.lcut(text_clean)
     # 过滤停用词和单字符
     stop = set("的了是在有和与及或者不也都而但 yet 这那其此该等对被把从到为以于中上下内外部全部")
@@ -67,9 +80,10 @@ def tokenize(text: str) -> List[str]:
 class BM25Retriever:
     """针对单题的 BM25 检索器"""
 
-    def __init__(self, doc_ids: List[str], domain: str):
+    def __init__(self, doc_ids: List[str], domain: str, use_finance_dict: bool = True):
         self.doc_ids = doc_ids
         self.domain = domain
+        self.use_finance_dict = use_finance_dict
         self.chunks: List[str] = []
         self.chunk_meta: List[Tuple[str, int]] = []  # (doc_id, chunk_idx)
         self.bm25 = None
@@ -90,7 +104,7 @@ class BM25Retriever:
         self.chunk_meta = all_meta
 
         if all_chunks:
-            tokenized = [tokenize(c) for c in all_chunks]
+            tokenized = [tokenize(c, use_finance_dict=self.use_finance_dict) for c in all_chunks]
             self.bm25 = BM25Okapi(tokenized)
 
     def retrieve(self, query: str, top_k: int = None, max_chars: int = None) -> List[str]:
@@ -103,7 +117,7 @@ class BM25Retriever:
         if max_chars is None:
             max_chars = config.MAX_CONTEXT_CHARS
 
-        query_tokens = tokenize(query)
+        query_tokens = tokenize(query, use_finance_dict=self.use_finance_dict)
         scores = self.bm25.get_scores(query_tokens)
 
         # 按分数排序

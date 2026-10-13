@@ -1,0 +1,7 @@
+config,description,n_questions,n_skipped,n_scored,accuracy,prompt_tokens,completion_tokens,total_tokens,token_source,avg_context_chars,avg_selected_chunks,avg_compression_ratio,avg_call_count,early_stop_ratio,token_saving_rate_vs_fulltext,n_fulltext_subset,tokens_on_fulltext_subset,skip_reason,elapsed_seconds
+A_full_text,Full-text baseline（相关文档全文直入）,100,48,0,,2655117,0,2655117,estimated,65823.9,0.0,1.0,,,0.0,52,2655117,SKIPPED_CONTEXT_LIMIT（全文超出模型上下文窗口）,5.4
+B_bm25,BM25（纯 jieba，领域固定预算）,100,0,0,,1131343,0,1131343,estimated,14095.8,24.0,1.0,,,0.7956,52,542782,,109.8
+C_bm25_finance,BM25 + 金融词典（领域固定预算）,100,0,0,,1139504,0,1139504,estimated,14083.4,24.0,1.0,,,0.7955,52,543096,,94.8
+D_bm25_dynamic,BM25 + 金融词典 + 动态上下文预算,100,0,0,,1134101,0,1134101,estimated,12540.9,19.85,1.0,,,0.794,52,546897,,49.0
+E_dynamic_compress,D + 动态记忆压缩,100,0,0,,931957,0,931957,estimated,9472.7,19.85,0.6772,,,0.8348,52,438719,,28.7
+F_mc_dynamic_compress,E + 多选自一致性,100,0,0,,931957,0,931957,estimated,9472.7,19.85,0.6772,,,0.8348,52,438719,,28.6

@@ -7,6 +7,7 @@ import time
 from typing import List
 
 import config
+from agent.pipeline import append_jsonl
 from preprocess import preprocess_all, load_document
 from retriever import retrieve_context
 from reasoner import answer_question
@@ -68,9 +69,22 @@ def solve_question(q: dict) -> dict:
         }
 
     # 2. 推理作答
-    answer, pt, ct = answer_question(question, options, answer_format, context)
+    answer, pt, ct = answer_question(question, options, answer_format, context, qid=qid)
     t2 = time.time()
     print(f"  答案: {answer} | tokens: {pt}+{ct}={pt+ct} | {t2-t1:.1f}s")
+
+    # 2.5 记录本题实际使用的检索预算与 token（任务2 的可追溯日志；不影响 CSV 输出）
+    domain_cfg = config.DOMAIN_CONFIG.get(domain, {})
+    append_jsonl(config.RETRIEVAL_LOG, {
+        "pipeline": "legacy_bm25_domain_config",
+        "qid": qid, "domain": domain, "answer_format": answer_format,
+        "top_k": domain_cfg.get("top_k", config.TOP_K),
+        "max_chars": domain_cfg.get("max_ctx", config.MAX_CONTEXT_CHARS),
+        "n_selected": None,             # 旧逻辑在拼装时未保留块级标识，故选块数不可得
+        "context_chars": len(context),
+        "prompt_tokens": pt, "completion_tokens": ct, "total_tokens": pt + ct,
+        "token_source": "api",
+    })
 
     return {
         "qid": qid,
